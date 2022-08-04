@@ -8,4 +8,27 @@ async({id}) => {
 }
 )
 
-const
+const PostSlice = createSlice({
+    name: 'post',
+    initialState:{
+        loading: false,
+        post: [],
+        error: null
+    },
+   extraReducers:{
+        [getPost.pending]:(state,action) =>{
+            state.loading = true
+        },
+        [getPost.fulfilled]:(state,action) =>{
+            state.loading = false;
+            state.post = [action.payload];
+        },
+        [getPost.rejected]:(state,action) =>{
+            state.loading = false;
+            state.error = action.payload
+
+        }
+    }
+})
+
+export default PostSlice.reducer;
