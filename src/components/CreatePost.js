@@ -52,7 +52,7 @@ const CreatePost = () => {
                     placeholder='Enter Post Title'
                      className="form-control"
                       id="exampleInputEmail1"
-                       aria-describedby="emailHelp"/>
+                 />
                    
                 </div>
                 <div className="form-floating">
