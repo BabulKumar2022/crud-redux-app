@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getPost } from '../redux/features/PostSlice';
+import { deletePost, getPost } from '../redux/features/PostSlice';
+import Spinner from './Spinner';
 
 const Posts = () => {
 
 
   const [id, setId] =useState();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const {loading, post} = useSelector(state => ({...state.app}))
 
   const handleFetchData = (e) =>{
     e.preventDefault();
@@ -18,8 +20,14 @@ const Posts = () => {
       dispatch(getPost({id}));
       getPost(" ");
     }
-    console.log(id);
-  }
+    //console.log(id);
+  };
+  // handle Delete
+  const handleDelete = ({id}) =>{
+    dispatch(deletePost({id: post[0].id}));
+    window.location.reload();
+    window.alert("Post Delete")
+  };
 
   return (
     <>
@@ -37,6 +45,31 @@ const Posts = () => {
            </form>
        
        </div>
+    </div>
+    <div className="container text-center">
+      {
+
+        loading ? <Spinner></Spinner> :(
+          <>
+              {post.length > 0 && (
+                <>
+                <div className="card mt-4" >
+                  <div className="card-body">
+                    <h5 className="card-title">{post[0].title}</h5>
+                    <p className="card-text">{post[0].body}</p>
+                   <div className=" d-flex align-items-end justify-content-end">
+                       <button className="btn btn-primary">Edit</button>
+                      <button className="btn btn-danger ms-4" onClick={handleDelete}>Delete</button>
+                   </div>
+                  </div>
+                </div>
+                </>
+              )}
+
+          </>
+        )
+
+      }
     </div>
    </>
   )
